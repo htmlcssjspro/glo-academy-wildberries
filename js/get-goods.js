@@ -4,7 +4,7 @@
 const getGoods = () => {
     const goodsItemName = 'goods';
     const $links = document.querySelectorAll('.navigation-link');
-
+    const $viewAll = document.querySelector('.more');
 
     const renderGoods = (goods = null) => {
         goods ??= localStorage.getItem(goodsItemName)
@@ -68,25 +68,26 @@ const getGoods = () => {
         });
     });
 
-    $viewAll;
-    const $viewAll = document.querySelectorAll('.button-text');
-    console.log('$viewAll: ', $viewAll);
 
-    document.body.addEventListener('click', event => {
-        const $button = event.target.closest('button');
-        if ($button && $button.textContent === 'View all') {
-            getData().then(data => {
-                localStorage.setItem(goodsItemName, JSON.stringify(data));
-                window.location.href = '/goods.html';
-            });
 
-        }
+    $viewAll && $viewAll.addEventListener('click', event => {
+        event.preventDefault();
+        getData().then(data => {
+            localStorage.setItem(goodsItemName, JSON.stringify(data));
+            window.location.href += '/goods.html';
+        });
     });
 
 
     if (window.location.pathname === '/goods.html') {
         renderGoods();
     }
+
+
+
+
+    console.log('window.location.href: ', window.location.href);
+    console.dir(window.location);
 
 };
 
