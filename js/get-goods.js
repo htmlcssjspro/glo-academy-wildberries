@@ -58,9 +58,9 @@ const getGoods = () => {
 
                 const filteredData = category ? data.filter(item => item[category] === value) : data;
 
-                if (window.location.pathname !== '/goods.html') {
+                if (!window.location.href.endsWith('/goods.html')) {
                     localStorage.setItem(goodsItemName, JSON.stringify(filteredData));
-                    window.location.href = '/goods.html';
+                    window.location.href = 'goods.html';
                 } else {
                     renderGoods(filteredData);
                 }
@@ -74,14 +74,12 @@ const getGoods = () => {
         event.preventDefault();
         getData().then(data => {
             localStorage.setItem(goodsItemName, JSON.stringify(data));
-            window.location.href += '/goods.html';
+            window.location.href = 'goods.html';
         });
     });
 
 
-    if (window.location.pathname === '/goods.html') {
-        renderGoods();
-    }
+    window.location.href.endsWith('/goods.html') && renderGoods();
 
 
 
