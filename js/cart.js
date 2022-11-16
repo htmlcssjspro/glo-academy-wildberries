@@ -4,6 +4,7 @@ const cart = () => {
     const $cart = document.getElementById('modal-cart');
     const $cartCloseBtn = $cart.querySelector('.modal-close');
     const $modalForm = $cart.querySelector('.modal-form');
+    const $cartTotal = $cart.querySelector('.card-table__total');
     const $cartBtn = document.querySelector('.button-cart');
     const $goodContainer = document.querySelector('.long-goods-list');
     const $cartTable = document.querySelector('.cart-table__goods');
@@ -86,6 +87,11 @@ const cart = () => {
                 }
             });
         });
+
+        const total = cart.reduce((acc, item) => {
+            return acc + item.price * item.count;
+        }, 0);
+        $cartTotal.textContent = `$${total}`;
     };
 
     const sendForm = () => {
