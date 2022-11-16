@@ -1,13 +1,12 @@
 'use strict';
 
 const search = () => {
-    const goodsItemName = 'goods';
     const $input = document.querySelector('.search-block > input');
     const $searchBtn = document.querySelector('.search-block > button');
 
     const renderGoods = (goods = null) => {
-        goods ??= localStorage.getItem(goodsItemName)
-            ? JSON.parse(localStorage.getItem(goodsItemName))
+        goods ??= localStorage.getItem('goods')
+            ? JSON.parse(localStorage.getItem('goods'))
             : [];
 
         const $goodContainer = document.querySelector('.long-goods-list');
@@ -49,9 +48,10 @@ const search = () => {
         getData().then(data => {
             const searchValue = $input.value;
             const filteredData = data.filter(good => good.name.toLowerCase().includes(searchValue.toLowerCase()));
-            if (window.location.pathname !== '/goods.html') {
-                localStorage.setItem(goodsItemName, JSON.stringify(filteredData));
-                window.location.href = '/goods.html';
+            if (!window.location.href.endsWith('/goods.html')) {
+                localStorage.setItem('goods', JSON.stringify(filteredData));
+                // window.location.href = 'goods.html';
+                window.location.assign('goods.html');
             } else {
                 renderGoods(filteredData);
             }

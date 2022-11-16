@@ -2,13 +2,12 @@
 
 
 const getGoods = () => {
-    const goodsItemName = 'goods';
     const $links = document.querySelectorAll('.navigation-link');
     const $viewAll = document.querySelector('.more');
 
     const renderGoods = (goods = null) => {
-        goods ??= localStorage.getItem(goodsItemName)
-            ? JSON.parse(localStorage.getItem(goodsItemName))
+        goods ??= localStorage.getItem('goods')
+            ? JSON.parse(localStorage.getItem('goods'))
             : [];
 
         const $goodContainer = document.querySelector('.long-goods-list');
@@ -57,10 +56,11 @@ const getGoods = () => {
                 const value = link.textContent;
 
                 const filteredData = category ? data.filter(item => item[category] === value) : data;
+                localStorage.setItem('goods', JSON.stringify(filteredData));
 
                 if (!window.location.href.endsWith('/goods.html')) {
-                    localStorage.setItem(goodsItemName, JSON.stringify(filteredData));
-                    window.location.href = 'goods.html';
+                    // window.location.href = 'goods.html';
+                    window.location.assign('goods.html');
                 } else {
                     renderGoods(filteredData);
                 }
@@ -69,23 +69,17 @@ const getGoods = () => {
     });
 
 
-
     $viewAll && $viewAll.addEventListener('click', event => {
         event.preventDefault();
         getData().then(data => {
-            localStorage.setItem(goodsItemName, JSON.stringify(data));
-            window.location.href = 'goods.html';
+            localStorage.setItem('goods', JSON.stringify(data));
+            // window.location.href = 'goods.html';
+            window.location.assign('goods.html');
         });
     });
 
 
     window.location.href.endsWith('/goods.html') && renderGoods();
-
-
-
-
-    console.log('window.location.href: ', window.location.href);
-    console.dir(window.location);
 
 };
 
